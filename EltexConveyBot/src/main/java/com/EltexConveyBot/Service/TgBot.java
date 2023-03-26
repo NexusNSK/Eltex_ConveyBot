@@ -1,6 +1,7 @@
 package com.EltexConveyBot.Service;
 
 import com.EltexConveyBot.Config.BotConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.concurrent.ExecutionException;
-
+@Slf4j
 @Component
 public class TgBot extends TelegramLongPollingBot {
 
@@ -40,6 +41,7 @@ public class TgBot extends TelegramLongPollingBot {
 
     private void startCommandReceived(long chatId, String name) {
         String answer = "Привет, " + name + ", это бот-помощник на конвейере!\nПока мой функционал сильно ограничен. Разработчик будет постепенно добавлять новые фичи для твоего удобства.";
+        log.info("Ответ пользователю " + name);
         sendMessage(chatId, answer);
 
     }
@@ -52,7 +54,7 @@ public class TgBot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-
+            log.error("Ошибка: "+ e.getMessage());
         }
     }
 
